@@ -15,4 +15,9 @@ public class UserController {
     public User registerUser(@RequestBody UserCreationRequest request){
         return userService.createUser(request.getEmail(), request.getPassword());
     }
+
+    @PostMapping("/api/login")
+    public String loginUser(@RequestBody UserCreationRequest request){
+        return userService.loginUser(request.getEmail(),request.getPassword());
+    }
 }

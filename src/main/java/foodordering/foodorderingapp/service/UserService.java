@@ -4,6 +4,7 @@ import foodordering.foodorderingapp.model.User;
 import foodordering.foodorderingapp.repository.FoodOrderingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,9 +13,12 @@ public class UserService {
     private FoodOrderingRepository foodOrderingRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    User user = new User();
+
     public User createUser(String email, String password) {
+        User user = new User();
         if (foodOrderingRepository.findByEmail(email) != null){
             throw new RuntimeException("Email Already Registered");
         }
@@ -25,5 +29,18 @@ public class UserService {
         foodOrderingRepository.save(user);
 
         return user;
+    }
+
+    // Login
+    public String loginUser(String email, String password){
+        User user = foodOrderingRepository.findByEmail(email);
+        if(user ==null){
+            throw new RuntimeException("Username is not registered. Try to create first.");
+        }else if(passwordEncoder.matches(password, user.getPassword())){
+            return  "Successfully logged in";
+        } else {
+           throw new RuntimeException("Incorrect password");
+        }
+
     }
 }
