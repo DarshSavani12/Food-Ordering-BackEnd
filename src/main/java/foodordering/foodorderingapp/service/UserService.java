@@ -22,6 +22,7 @@ public class UserService {
         String hashedPassword = bCryptPasswordEncoder.encode(password);
         user.setEmail(email);
         user.setPassword(hashedPassword);
+        user.setRole("user");
         foodOrderingRepository.save(user);
 
         return user;
@@ -33,7 +34,7 @@ public class UserService {
         if(user ==null){
             throw new RuntimeException("Username is not registered. Try to create first.");
         }else if(bCryptPasswordEncoder.matches(password, user.getPassword())){
-            return  "Successfully logged in";
+            return  "Successfully logged in and role is =>"+ user.getRole();
         } else {
            throw new RuntimeException("Incorrect password");
         }
