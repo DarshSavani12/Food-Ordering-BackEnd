@@ -4,6 +4,7 @@ import foodordering.foodorderingapp.dto.UserCreationRequest;
 import foodordering.foodorderingapp.model.User;
 import foodordering.foodorderingapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +18,7 @@ public class UserController {
     }
 
     @PostMapping("/api/login")
-    public String loginUser(@RequestBody UserCreationRequest request){
+    public ResponseEntity<String> loginUser(@RequestBody UserCreationRequest request){
         return userService.loginUser(request.getEmail(),request.getPassword());
     }
 }
