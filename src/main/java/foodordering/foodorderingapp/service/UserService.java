@@ -13,8 +13,8 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    User user = new User();
     public User createUser(String email, String password) {
+        User user = new User();
         if (foodOrderingRepository.findByEmail(email) != null){
             throw new RuntimeException("Email Already Registered");
         }
@@ -25,5 +25,18 @@ public class UserService {
         foodOrderingRepository.save(user);
 
         return user;
+    }
+
+    // Login
+    public String loginUser(String email, String password){
+        User user = foodOrderingRepository.findByEmail(email);
+        if(user ==null){
+            throw new RuntimeException("Username is not registered. Try to create first.");
+        }else if(bCryptPasswordEncoder.matches(password, user.getPassword())){
+            return  "Successfully logged in";
+        } else {
+           throw new RuntimeException("Incorrect password");
+        }
+
     }
 }
