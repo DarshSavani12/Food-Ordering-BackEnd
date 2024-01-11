@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 public class ItemsController {
 
@@ -24,5 +26,10 @@ public class ItemsController {
                                               @RequestParam("price") Integer price){
 
         return  itemService.createItems(file,name,description,price);
+    }
+
+    @GetMapping("api/getItems")
+    public List getItems(){
+        return itemService.getAllitems();
     }
 }
