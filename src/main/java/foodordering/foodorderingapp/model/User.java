@@ -13,6 +13,8 @@ public class User {
     private String email;
     @Field("password")
     private  String password;
+    @Field("username")
+    private String username;
     @Field("role")
     private String role;
 }
