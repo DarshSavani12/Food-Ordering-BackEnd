@@ -36,10 +36,10 @@ public class UserService implements UserDetailsService {
         if (userRepository.findByEmail(email) != null){
             throw new RuntimeException("Email Already Registered");
         }
-
         String hashedPassword = passwordEncoder.encode(password);
         user.setEmail(email);
         user.setPassword(hashedPassword);
+        user.setRole("user");
         userRepository.save(user);
 
         return ResponseEntity.ok(user);
